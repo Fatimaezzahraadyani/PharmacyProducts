@@ -21,11 +21,11 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Optional<Product> findById(Long id) {
+    public Optional<Product> getProductByID(Long id) {
         return productRepository.findById(id);
     }
 
-
+//hniuygygigyhgyugygyigiguiguigui
     public Product getOneProduct(long id){
         return productRepository.findById(id).orElseThrow();
     }
@@ -35,8 +35,14 @@ public class ProductService {
     }
 
     // update
-    public Product updateProduct(Product product) {
+    public Product updateProduct(long id, Product productDetails) {
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setName(productDetails.getName());
+        product.setDescription(productDetails.getDescription());
+        product.setPrice(productDetails.getPrice());
+        product.setQuantity(productDetails.getQuantity());
         return productRepository.save(product);
+
     }
     // delete
 

@@ -2,25 +2,43 @@ package com.java.pharmacy.Controller;
 
 import com.java.pharmacy.model.Product;
 import com.java.pharmacy.service.ProductService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
     final ProductService productService;
+
+    @Autowired
+
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
+    @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts()   ;
     }
 
-    public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow();
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable long id) {
+        return productService.getProductByID(id).orElseThrow();
+    }
+
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable long id, @RequestBody Product product){
+        return productService.updateProduct(id,product);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable long id){
+        productService.deleteProduct(id);
     }
 }
